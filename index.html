@@ -22,14 +22,11 @@
         <h1>Museum Visits</h1>
         <div>
             <ul class="nav">
-                <li><strong>A list of museums I have visited</strong></li>
-                <li><a href="#info">INFO</a> -</li>
-                <li><a href="http://jlord.github.com/sheetsee.js" target="_blank">POWERED BY SHEETSEE.JS</a> -</li>
-                <li><a href="http://www.github.com/jlord/hack-spots" target="_blank">FORKED FROM JLORD ON GITHUB</a></li>
-                
+                <li><strong>A list of museums I have visited</strong> -</li>
+                <li><a href="#info">INFO</a></li>                
             </ul>
         </div>
-        <div class="container">
+    <div class="container">
             <div id="rightSide">
                 <div id="latestSpot"></div>
                 <div id="selectedSpot"></div>
@@ -43,21 +40,18 @@
             <div id="hackSpotsTable"></div>
         </div>
         <div id="info" class="container">
-
-            <h3>Info</h3>
+            <h3>INFO</h3>
             <div id="theNumberofSpots"></div>
-            <p>Just a simple list of museums that I have visited.</p>
-
-            <p>This is forked from <a href="http://jlord.github.io/hack-spots" target="_blank">Hack Spots</a>, and uses <a href="http://jlord.us/sheetsee.js/" target="_blank">Sheetsee.js</a> to visualise data from a Google Spreadsheet!</p>
-
+            <p>This page lists the museums I have visited. It is powered by <a href="http://jlord.github.com/sheetsee.js" target="_blank">SHEETSEE.JS</a> and <a href="http://www.github.com/jlord/hack-spots" target="_blank">forked from hack spots</a>
+          
         </div>
     </div><!-- end wrapper -->
 
     <script id="hackSpotsTable" type="text/html">
         <table>
-            <tr><th class="tHeader">Name</th><th class="tHeader">Address</th><th class="tHeader">City</th><th class="tHeader">Country</th><th class="">Elsewhere</th></tr>
+            <tr><th class="tHeader">Name</th><th class="tHeader">Address</th><th class="tHeader">City</th><th class="tHeader">State</th><th class="tHeader">Country</th><th class="">Elsewhere</th></tr>
             {{#rows}}
-                <tr id="{{rowNumber}}" class="spotRow"><td>{{name}}</td><td>{{address}}</td><td>{{city}}</td><td>{{country}}</td><td><a class="button" href="https://maps.google.com/maps?q={{address}},{{city}},{{state}}" target="_blank">G Map</a> </td></tr>
+                <tr id="{{rowNumber}}" class="spotRow"><td>{{name}}</td><td>{{address}}</td><td>{{city}}</td><td>{{state}}</td><td>{{country}}</td><td><a class="button" href="https://maps.google.com/maps?q={{address}},{{city}},{{state}}" target="_blank">G Map</a> </td></tr>
             {{/rows}}
         </table>
     </script>
@@ -69,21 +63,20 @@
             <p class="colorText">{{address}}<p>
             <p class="colorText">{{city}}{{#state}}, {{state}}{{/state}}{{#postcode}}, {{postcode}}{{/postcode}}</p>
             <ul>
-                <li><span class="category">Wifi:</span> {{wifipassword}}</li>
-                <li><span class="category">Outlets:</span> {{outlets}}</li>
-                <li><span class="category">Couch:</span> {{couch}}</li>
-                <li><span class="category">Large Table:</span> {{largetable}}</li>
-                <li><span class="category">Outdoor Seating:</span> {{outdoorseating}}</li>
-                <li><span class="category">Brewing:</span> {{brewing}}</li>
+                <li><span class="category">Ticket:</span> {{ticketcost}}</li>
+                <li><span class="category">Camera:</span> {{camera}}</li>
+                
+                
             </ul>
             <ul>
                 <li><a href="https://maps.google.com/maps?q={{address}},{{city}},{{state}}" target="_blank">View in Google Maps</a></li>
+                
             </ul>
         {{/rows}}
     </script>
 
     <script id="theNumberofSpots" type="text/html">
-        <p><strong><span class="red-text">{{numberOfSpots}}</span> hack spots strong!</p>
+        <p><strong><span class="red-text">{{numberOfSpots}}</span> museums visited!</p>
     </script>
 
     <script id="selectedSpot" type="text/html">
@@ -93,16 +86,12 @@
             <p class="colorText">{{address}}<p>
             <p class="colorText">{{city}}{{#state}}, {{state}}{{/state}}{{#postcode}}, {{postcode}}{{/postcode}}</p>
             <ul>
-                <li><span class="category">Wifi:</span> {{wifipassword}}</li>
-                <li><span class="category">Outlets:</span> {{outlets}}</li>
-                <li><span class="category">Couch:</span> {{couch}}</li>
-                <li><span class="category">Large Table:</span> {{largetable}}</li>
-                <li><span class="category">Outdoor Seating:</span> {{outdoorseating}}</li>
-                <li><span class="category">Brewing:</span> {{brewing}}</li>
+                <li><span class="category">Ticket:</span> {{ticketcost}}</li>
+                <li><span class="category">Camera:</span> {{camera}}</li>
             </ul>
             <ul>
                 <li><a href="https://maps.google.com/maps?q={{address}},{{city}},{{state}}" target="_blank">View in Google Maps</a></li>
-                <li><a href="http://www.yelp.com/search?find_desc={{name}}&find_loc={{city}},{{state}}" target="_blank">Find on Yelp</a></li>
+          
             </ul>
         {{/rows}}
     </script>
@@ -113,7 +102,6 @@
             var URL = "11vTfr1QMb71GCxftcP674OTXA5o-SB56lyMKrqSQHbI"
                 Tabletop.init({ key: URL, callback: showInfo, simpleSheet: true })
         })
-
         // so long, so messy
         function showInfo(gData) {
             tableOptions = {
@@ -124,17 +112,14 @@
             // make the table, and the search bar
             Sheetsee.makeTable(tableOptions)
             Sheetsee.initiateTableFilter(tableOptions)
-
             // create geoJSON with coordinates and other
             // useful bits from the original data
             var optionsJSON = ["name", "address", "city", "rowNumber"]
             var geoJSON = Sheetsee.createGeoJSON(gData, optionsJSON)
-
             // create map, tilelayer (map background), markers and popups
             var map = Sheetsee.loadMap("map")
             Sheetsee.addTileLayer(map, 'jllord.n7aml2bc')
             var markerLayer = Sheetsee.addMarkerLayer(geoJSON, map, "<h2>{{ name }}</h2>", true)
-
             // find the latest spot with the most important
             // info filled in (to prevent map breaking if
             // someone is currently editing spreadsheet)
@@ -145,7 +130,6 @@
             // set it and pan to it
             $('#latestSpot').html(latestSpot)
             map.setView([theLatestSpot.lat, theLatestSpot.long], 14)
-
             // when someone clicks on a row, highlight it and
             // re-center the map
             // TODO show popup, change marker color
@@ -162,7 +146,6 @@
                 var selectedCoords = [dataElement[0].lat, dataElement[0].long]
                 map.setView(selectedCoords, 14)
             })
-
             // so that the first map and info that loads
             // is complete and doesn't show rows that are
             // actively being edited by folk
@@ -175,7 +158,6 @@
                 })
                 return latestCompleteSpot[0]
             }
-
             // Add click listener to the markerLayer
             markerLayer.on('click', function(e) {
                 // clear any selected rows
@@ -196,7 +178,6 @@
                 $('#latestSpot').css("display", "none")
                 $('#selectedSpot').html(selectedSpot).css("display", "inline")
             })
-
             // reset the map, zoom out, and recenter on 0,0
             $('.resetMap').click(function() {
                 $('.spotRow').removeClass("selectedRow")
@@ -204,19 +185,16 @@
                 $('#selectedSpot').css("display", "none")
                 map.setView([0,0], 1)
             })
-
             // find total number of spots added
             var theNumberofSpots = Sheetsee.ich.theNumberofSpots({
                 numberOfSpots: gData.length
             })
             $('#theNumberofSpots').html(theNumberofSpots)
-
             if(window.location.hash) {
                 $('#tableFilter').val(window.location.hash.substring(1)).keyup()
                 $('.spotRow').first().click()
             }
         }
-
         $(document).on('keyup', '#tableFilter', function() {
             window.location.hash = $(this).val()
             $('.spotRow').first().click()
